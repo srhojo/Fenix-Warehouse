@@ -7,24 +7,24 @@ import java.util.List;
 public class CategoryUpdateSubCategoriesRequest {
 
     @NotNull
-    private Long categoryId;
+    private String categoryId;
 
     @NotEmpty
-    private List<Long> subcategoryIds;
+    private List<String> subcategoryIds;
 
-    public Long getCategoryId() {
+    public String getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(Long categoryId) {
+    public void setCategoryId(String categoryId) {
         this.categoryId = categoryId;
     }
 
-    public List<Long> getSubcategoryIds() {
+    public List<String> getSubcategoryIds() {
         return subcategoryIds;
     }
 
-    public void setSubcategoryIds(List<Long> subcategoryIds) {
+    public void setSubcategoryIds(List<String> subcategoryIds) {
         this.subcategoryIds = subcategoryIds;
     }
 }

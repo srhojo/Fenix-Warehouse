@@ -1,6 +1,6 @@
 package com.hojo.fenix.warehouse.domain.entities.enums;
 
-public enum FoodUnitiesEnum {
+public enum UnitiesEnum {
     KILOGRAMS, LITERS, UNITS, PACKAGES
 
 }

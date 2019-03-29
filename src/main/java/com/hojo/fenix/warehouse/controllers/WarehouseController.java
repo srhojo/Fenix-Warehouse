@@ -2,10 +2,10 @@ package com.hojo.fenix.warehouse.controllers;
 
 import com.hojo.fenix.warehouse.domain.CategoryUpdateSubCategoriesRequest;
 import com.hojo.fenix.warehouse.domain.ContainerEntities;
-import com.hojo.fenix.warehouse.domain.entities.CategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
 import com.hojo.fenix.warehouse.domain.entities.FoodEntity;
-import com.hojo.fenix.warehouse.domain.entities.SubCategoryEntity;
-import com.hojo.fenix.warehouse.services.WarehouseService;
+import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
+import com.hojo.fenix.warehouse.services.WarehouseFoodService;
 import com.hojo.fenix.warehouse.utils.aop.WarehouseLogger;
 import com.hojo.fenix.warehouse.utils.exceptions.WarehouseExceptionResponse;
 import io.swagger.annotations.*;
@@ -25,10 +25,10 @@ import java.util.List;
 @Api(consumes = "application/json", produces = "application/jsons")
 public class WarehouseController {
 
-    private final WarehouseService warehouseService;
+    private final WarehouseFoodService warehouseFoodService;
 
-    public WarehouseController(final WarehouseService warehouseService) {
-        this.warehouseService = warehouseService;
+    public WarehouseController(final WarehouseFoodService warehouseFoodService) {
+        this.warehouseFoodService = warehouseFoodService;
     }
 
     @PostMapping("/categories")
@@ -39,8 +39,8 @@ public class WarehouseController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public ContainerEntities<CategoryEntity> createCategories(@RequestBody @Valid final List<CategoryEntity> categories) {
-        return warehouseService.createCategories(categories);
+    public ContainerEntities<FoodCategoryEntity> createCategories(@RequestBody @Valid final List<FoodCategoryEntity> categories) {
+        return warehouseFoodService.createCategories(categories);
     }
 
     @PutMapping("/categories")
@@ -51,8 +51,8 @@ public class WarehouseController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public ContainerEntities<CategoryEntity> updateCategory(@RequestBody @Valid final CategoryEntity categoryEntity) {
-        return warehouseService.updateCategories(Collections.singletonList(categoryEntity));
+    public ContainerEntities<FoodCategoryEntity> updateCategory(@RequestBody @Valid final FoodCategoryEntity foodCategoryEntity) {
+        return warehouseFoodService.updateCategories(Collections.singletonList(foodCategoryEntity));
     }
 
     @PatchMapping("/categories/update-subcategories")
@@ -63,8 +63,8 @@ public class WarehouseController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public CategoryEntity updateSubcategoriesToCategory(@RequestBody @Valid CategoryUpdateSubCategoriesRequest request) {
-        return warehouseService.updateSubCategoriesToCategory(request);
+    public FoodCategoryEntity updateSubcategoriesToCategory(@RequestBody @Valid CategoryUpdateSubCategoriesRequest request) {
+        return warehouseFoodService.updateSubCategoriesToCategory(request);
     }
 
     @GetMapping("/categories")
@@ -75,10 +75,10 @@ public class WarehouseController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public ContainerEntities<CategoryEntity> getCategories(
+    public ContainerEntities<FoodCategoryEntity> getCategories(
             @ApiParam(name = "filter", example = "filter=name~food,description~meat")
             @RequestParam(value = "filter", required = false) final String filter) {
-        return warehouseService.getCategories(filter);
+        return warehouseFoodService.getCategories(filter);
     }
 
     @PostMapping("/subcategories")
@@ -89,8 +89,8 @@ public class WarehouseController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public ContainerEntities<SubCategoryEntity> createSubCategoryEntity(@RequestBody @Valid SubCategoryEntity subCategoryEntity) {
-        return warehouseService.createSubCategories(Collections.singletonList(subCategoryEntity));
+    public ContainerEntities<FoodSubCategoryEntity> createSubCategoryEntity(@RequestBody @Valid FoodSubCategoryEntity foodSubCategoryEntity) {
+        return warehouseFoodService.createSubCategories(Collections.singletonList(foodSubCategoryEntity));
     }
 
     @GetMapping("/subcategories")
@@ -101,10 +101,10 @@ public class WarehouseController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public ContainerEntities<SubCategoryEntity> getSubCategories(
+    public ContainerEntities<FoodSubCategoryEntity> getSubCategories(
             @ApiParam(name = "filter", example = "filter=name~food,description~meat")
             @RequestParam(value = "filter", required = false) final String filter) {
-        return warehouseService.searchSubCategories(filter);
+        return warehouseFoodService.searchSubCategories(filter);
     }
 
 
@@ -117,7 +117,7 @@ public class WarehouseController {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
     public ContainerEntities<FoodEntity> searchFood(@RequestParam(value = "filter", required = false) String filter) {
-        return warehouseService.searchFoods(filter);
+        return warehouseFoodService.searchFoods(filter);
     }
 
     @PostMapping("/foods")
@@ -129,7 +129,7 @@ public class WarehouseController {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
     public FoodEntity createFood(@RequestBody @Valid FoodEntity food) {
-        return warehouseService.createFood(food);
+        return warehouseFoodService.createFood(food);
     }
 
     @PutMapping("/foods/{name}")
@@ -142,7 +142,7 @@ public class WarehouseController {
     })
     public FoodEntity updateFood(@PathVariable("name") String name, @RequestBody @Valid FoodEntity food) {
         food.setName(name);
-        return warehouseService.updateFood(food);
+        return warehouseFoodService.updateFood(food);
     }
 
 

@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.domain.Specification;
 
-import com.hojo.fenix.warehouse.domain.entities.CategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
 import com.hojo.fenix.warehouse.domain.entities.FoodEntity;
-import com.hojo.fenix.warehouse.domain.entities.SubCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
 
 /**
  * @author hojo
@@ -15,39 +15,39 @@ import com.hojo.fenix.warehouse.domain.entities.SubCategoryEntity;
  */
 public interface WarehouseDao {
 
-    CategoryEntity createCategory(CategoryEntity categoryEntity);
+    FoodCategoryEntity createCategory(FoodCategoryEntity foodCategoryEntity);
 
-    CategoryEntity updateCategory(CategoryEntity categoryEntity);
+    FoodCategoryEntity updateCategory(FoodCategoryEntity foodCategoryEntity);
 
-    CategoryEntity getCategory(Long id);
+    FoodCategoryEntity getCategory(String name);
 
-    List<CategoryEntity> searchCategories(Specification<CategoryEntity> spec);
+    List<FoodCategoryEntity> searchCategories(Specification<FoodCategoryEntity> spec);
 
-    void deleteCategory(Long id);
+    void deleteCategory(String name);
 
-    default List<CategoryEntity> createCategories(final List<CategoryEntity> categories) {
+    default List<FoodCategoryEntity> createCategories(final List<FoodCategoryEntity> categories) {
         return categories.stream().map(this::createCategory).collect(Collectors.toList());
     }
 
-    default List<CategoryEntity> updateCategories(final List<CategoryEntity> categories) {
+    default List<FoodCategoryEntity> updateCategories(final List<FoodCategoryEntity> categories) {
         return categories.stream().map(this::updateCategory).collect(Collectors.toList());
     }
 
-    SubCategoryEntity createSubCategory(SubCategoryEntity subCategoryEntity);
+    FoodSubCategoryEntity createSubCategory(FoodSubCategoryEntity foodSubCategoryEntity);
 
-    SubCategoryEntity updateSubCategory(SubCategoryEntity subCategoryEntity);
+    FoodSubCategoryEntity updateSubCategory(FoodSubCategoryEntity foodSubCategoryEntity);
 
-    SubCategoryEntity getSubcategory(Long id);
+    FoodSubCategoryEntity getSubcategory(String name);
 
-    void deleteSubcategory(Long id);
+    void deleteSubcategory(String name);
 
-    List<SubCategoryEntity> searchSubCategories(Specification<SubCategoryEntity> specification);
+    List<FoodSubCategoryEntity> searchSubCategories(Specification<FoodSubCategoryEntity> specification);
 
-    default List<SubCategoryEntity> createSubCategories(final List<SubCategoryEntity> subcategories) {
+    default List<FoodSubCategoryEntity> createSubCategories(final List<FoodSubCategoryEntity> subcategories) {
         return subcategories.stream().map(this::createSubCategory).collect(Collectors.toList());
     }
 
-    default List<SubCategoryEntity> updateSubCategories(final List<SubCategoryEntity> subcategories) {
+    default List<FoodSubCategoryEntity> updateSubCategories(final List<FoodSubCategoryEntity> subcategories) {
         return subcategories.stream().map(this::updateSubCategory).collect(Collectors.toList());
     }
 

@@ -4,7 +4,6 @@ import java.util.List;
 
 /**
  * @author hojo
- *
  */
 public class ContainerEntities<T> {
 

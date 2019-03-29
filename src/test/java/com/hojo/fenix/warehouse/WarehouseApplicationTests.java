@@ -1,6 +1,7 @@
 package com.hojo.fenix.warehouse;
 
 import com.hojo.fenix.warehouse.domain.ContainerEntities;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class WarehouseApplicationTests {
     private TestRestTemplate restTemplate;
 
     @Test
+    @Ignore
     public void getCategories() {
         // Given
 
@@ -38,6 +40,7 @@ public class WarehouseApplicationTests {
     }
 
     @Test
+    @Ignore
     public void searchCategories_byId() {
         // Given
 
@@ -53,6 +56,7 @@ public class WarehouseApplicationTests {
     }
 
     @Test
+    @Ignore
     public void searchCategories_byNameLike() {
         // Given
 
