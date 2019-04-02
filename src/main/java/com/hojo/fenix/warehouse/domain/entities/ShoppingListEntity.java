@@ -1,19 +1,30 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.Map;
 
 @Entity
-@Table(name = "WAREHOUSE_SHOPPING_LIST")
+@Table(name = "warehouse_shopping_list")
 public class ShoppingListEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "UPDATED_DATE")
+    @Column(name = "updated_date", nullable = false)
     private LocalDateTime lastUpdatedDate;
+
+    @NotEmpty
+    @Size(max = 200)
+    @Column(name = "name", length = 200, nullable = false)
+    private String name;
+
+    @Size(max = 500)
+    @Column(name = "description", length = 500)
+    private String description;
 
     @OneToMany
     @JoinColumn(name = "shopping_list_id")
@@ -26,6 +37,22 @@ public class ShoppingListEntity {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public LocalDateTime getLastUpdatedDate() {

@@ -1,17 +1,17 @@
 package com.hojo.fenix.warehouse.services.impl;
 
 import com.hojo.fenix.warehouse.dao.WarehouseDao;
-import com.hojo.fenix.warehouse.domain.CategoryUpdateSubCategoriesRequest;
-import com.hojo.fenix.warehouse.domain.ContainerEntities;
+import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
 import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
 import com.hojo.fenix.warehouse.domain.entities.FoodEntity;
 import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.QuantityEmbeddableEntity;
+import com.hojo.fenix.warehouse.domain.requests.FoodRequest;
 import com.hojo.fenix.warehouse.services.WarehouseFoodService;
 import com.hojo.fenix.warehouse.utils.ql.QueryLanguajeComponentImpl;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
  * @author hojo
@@ -20,82 +20,50 @@ import java.util.List;
 public class WarehouseFoodServiceImpl implements WarehouseFoodService {
 
     private final WarehouseDao warehouseDao;
-    private final QueryLanguajeComponentImpl<FoodCategoryEntity> qlCategory;
-    private final QueryLanguajeComponentImpl<FoodSubCategoryEntity> qlSubCategory;
     private final QueryLanguajeComponentImpl<FoodEntity> qlFood;
 
     public WarehouseFoodServiceImpl(final WarehouseDao warehouseDao,
-                                    final QueryLanguajeComponentImpl<FoodCategoryEntity> qlCategory,
-                                    final QueryLanguajeComponentImpl<FoodSubCategoryEntity> qlSubCategory,
                                     final QueryLanguajeComponentImpl<FoodEntity> qlFood) {
         this.warehouseDao = warehouseDao;
-        this.qlCategory = qlCategory;
-        this.qlSubCategory = qlSubCategory;
         this.qlFood = qlFood;
     }
 
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public ContainerEntities<FoodCategoryEntity> createCategories(final List<FoodCategoryEntity> categoryEntities) {
-        return new ContainerEntities<>(warehouseDao.createCategories(categoryEntities));
+    public FoodEntity createFood(FoodRequest food) {
+
+        // Check manually if categories and subcategories exist?
+        foodMapper(food);
+        return warehouseDao.createFood(foodMapper(food));
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void deleteCategory(String name) {
-        warehouseDao.deleteCategory(name);
+    public FoodEntity updateFood(FoodRequest food) {
+
+        // Check manually if categories and subcategories exist?
+        return warehouseDao.updateFood(foodMapper(food));
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContainerEntities<FoodCategoryEntity> updateCategories(List<FoodCategoryEntity> categoryEntities) {
-        return new ContainerEntities<>(warehouseDao.updateCategories(categoryEntities));
-    }
+    private FoodEntity foodMapper(FoodRequest food) {
+        //Extract to map??
+        FoodEntity entity = new FoodEntity();
+        entity.setName(food.getName());
+        entity.setDescription(food.getDescription());
+        entity.setCategory(new FoodCategoryEntity());
+        entity.getCategory().setName(food.getCategoryName());
+        entity.setFoodSubCategoryEntity(new FoodSubCategoryEntity());
+        entity.getFoodSubCategoryEntity().setName(food.getSubCategoryName());
+        QuantityEmbeddableEntity quantityEntity = new QuantityEmbeddableEntity();
+        quantityEntity.setUnities(food.getQuantity().getUnities());
+        quantityEntity.setValue(food.getQuantity().getValue());
 
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public FoodCategoryEntity updateSubCategoriesToCategory(CategoryUpdateSubCategoriesRequest request) {
-        FoodCategoryEntity foodCategoryEntity = warehouseDao.getCategory(request.getCategoryId());
-
-        List<FoodSubCategoryEntity> subCategoryEntities = new ArrayList<>();
-        request.getSubcategoryIds().forEach(subcategoryId -> subCategoryEntities.add(warehouseDao.getSubcategory(subcategoryId)));
-
-        foodCategoryEntity.setSubcategories(subCategoryEntities);
-
-        return warehouseDao.updateCategory(foodCategoryEntity);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContainerEntities<FoodCategoryEntity> getCategories(final String filter) {
-        return new ContainerEntities<>(warehouseDao.searchCategories(qlCategory.parse(filter)));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContainerEntities<FoodSubCategoryEntity> createSubCategories(final List<FoodSubCategoryEntity> subCategoryEntities) {
-        return new ContainerEntities<>(warehouseDao.createSubCategories(subCategoryEntities));
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContainerEntities<FoodSubCategoryEntity> searchSubCategories(final String filter) {
-        return new ContainerEntities<>(warehouseDao.searchSubCategories(qlSubCategory.parse(filter)));
+        entity.setQuantity(quantityEntity);
+        entity.setLastUpdatedDate(LocalDateTime.now());
+        entity.setExpirationDate(food.getExpirationDate());
+        return entity;
     }
 
 
@@ -103,22 +71,8 @@ public class WarehouseFoodServiceImpl implements WarehouseFoodService {
      * {@inheritDoc}
      */
     @Override
-    public FoodEntity createFood(FoodEntity food) {
-        return warehouseDao.createFood(food);
-    }
-
-    @Override
-    public FoodEntity updateFood(FoodEntity food) {
-        return warehouseDao.updateFood(food);
-    }
-
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ContainerEntities<FoodEntity> searchFoods(final String filter) {
-        return new ContainerEntities<>(warehouseDao.searchFoods(qlFood.parse(filter)));
+    public ContainerList<FoodEntity> searchFoods(final String filter) {
+        return new ContainerList<>(warehouseDao.searchFoods(qlFood.parse(filter)));
     }
 
 }

@@ -1,6 +1,7 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
-import com.hojo.fenix.warehouse.domain.entities.enums.UnitiesEnum;
+
+import com.hojo.fenix.warehouse.domain.cdm.enums.UnitiesEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;

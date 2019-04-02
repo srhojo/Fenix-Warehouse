@@ -1,22 +1,22 @@
-package com.hojo.fenix.warehouse.domain;
+package com.hojo.fenix.warehouse.domain.cdm;
 
 import java.util.List;
 
 /**
  * @author hojo
  */
-public class ContainerEntities<T> {
+public class ContainerList<T> {
 
     // Valores
     private List<T> values;
 
     // Paginación??
 
-    public ContainerEntities() {
+    public ContainerList() {
         // do nothing
     }
 
-    public ContainerEntities(final List<T> values) {
+    public ContainerList(final List<T> values) {
         super();
         this.values = values;
     }

@@ -1,5 +1,6 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -29,7 +30,7 @@ public class FoodEntity extends ProductEntity {
     private FoodSubCategoryEntity foodSubCategoryEntity;
 
     @Column(name = "expiration_date")
-    private LocalDateTime expirationDate;
+    private LocalDate expirationDate;
 
     public FoodCategoryEntity getCategory() {
         return category;
@@ -47,11 +48,11 @@ public class FoodEntity extends ProductEntity {
         this.foodSubCategoryEntity = foodSubCategoryEntity;
     }
 
-    public LocalDateTime getExpirationDate() {
+    public LocalDate getExpirationDate() {
         return expirationDate;
     }
 
-    public void setExpirationDate(LocalDateTime expirationDate) {
+    public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
     }
 }

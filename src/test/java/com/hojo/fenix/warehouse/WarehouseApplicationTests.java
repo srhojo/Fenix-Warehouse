@@ -1,6 +1,6 @@
 package com.hojo.fenix.warehouse;
 
-import com.hojo.fenix.warehouse.domain.ContainerEntities;
+import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,8 +30,8 @@ public class WarehouseApplicationTests {
         // Given
 
         // When
-        final ResponseEntity<ContainerEntities> response = restTemplate.getForEntity("/warehouse/categories",
-                ContainerEntities.class);
+        final ResponseEntity<ContainerList> response = restTemplate.getForEntity("/warehouse/categories",
+                ContainerList.class);
 
         // Then
         assertNotNull(response);
@@ -47,7 +47,7 @@ public class WarehouseApplicationTests {
         final String filter = "?search=id%3A1";
         final String url = "/warehouse/categories" + filter;
         // When
-        final ResponseEntity<ContainerEntities> response = restTemplate.getForEntity(url, ContainerEntities.class);
+        final ResponseEntity<ContainerList> response = restTemplate.getForEntity(url, ContainerList.class);
 
         // Then
         assertNotNull(response);
@@ -63,7 +63,7 @@ public class WarehouseApplicationTests {
         final String filter = "?search=name~CAT";
         final String url = "/warehouse/categories" + filter;
         // When
-        final ResponseEntity<ContainerEntities> response = restTemplate.getForEntity(url, ContainerEntities.class);
+        final ResponseEntity<ContainerList> response = restTemplate.getForEntity(url, ContainerList.class);
 
         // Then
         assertNotNull(response);
