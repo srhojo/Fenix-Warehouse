@@ -3,6 +3,8 @@ package com.hojo.fenix.warehouse.dao;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
@@ -12,7 +14,7 @@ import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
  * @author hojo
  *
  */
-public interface WarehouseDao {
+public interface WarehouseCategoriesDao {
 
     FoodCategoryEntity createCategory(FoodCategoryEntity foodCategoryEntity);
 
@@ -21,6 +23,8 @@ public interface WarehouseDao {
     FoodCategoryEntity getCategory(String name);
 
     List<FoodCategoryEntity> searchCategories(Specification<FoodCategoryEntity> spec);
+
+    Page<FoodCategoryEntity> searchCategories(Specification<FoodCategoryEntity> spec, Pageable pageable);
 
     void deleteCategory(String name);
 

@@ -1,11 +1,13 @@
 package com.hojo.fenix.warehouse.dao.impl;
 
-import com.hojo.fenix.warehouse.dao.WarehouseDao;
+import com.hojo.fenix.warehouse.dao.WarehouseCategoriesDao;
 import com.hojo.fenix.warehouse.dao.repositories.CategoryRepository;
 import com.hojo.fenix.warehouse.dao.repositories.SubCategoryRepository;
 import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
 import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
 import com.hojo.fenix.warehouse.utils.exceptions.WarehouseException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -17,14 +19,14 @@ import static com.hojo.fenix.warehouse.utils.exceptions.ExceptionConstants.*;
 
 @Repository
 @Transactional
-class WarehouseDaoImpl implements WarehouseDao {
+class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
 
     private final CategoryRepository categoryRepository;
     private final SubCategoryRepository subCategoryRepository;
 
 
-    public WarehouseDaoImpl(final CategoryRepository categoryRepository,
-                            final SubCategoryRepository subCategoryRepository) {
+    public WarehouseCategoriesDaoImpl(final CategoryRepository categoryRepository,
+                                      final SubCategoryRepository subCategoryRepository) {
         this.categoryRepository = categoryRepository;
         this.subCategoryRepository = subCategoryRepository;
     }
@@ -78,6 +80,11 @@ class WarehouseDaoImpl implements WarehouseDao {
     @Override
     public List<FoodCategoryEntity> searchCategories(final Specification<FoodCategoryEntity> spec) {
         return categoryRepository.findAll(spec);
+    }
+
+    @Override
+    public Page<FoodCategoryEntity> searchCategories(Specification<FoodCategoryEntity> spec, Pageable pageable) {
+        return categoryRepository.findAll(spec, pageable);
     }
 
     /**
