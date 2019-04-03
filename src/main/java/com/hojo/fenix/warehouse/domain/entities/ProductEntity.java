@@ -4,6 +4,7 @@ package com.hojo.fenix.warehouse.domain.entities;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 
 @Entity
 @Table(name="warehouse_products")
@@ -14,20 +15,20 @@ public class ProductEntity {
 
     @Id
     @Column(name = "name")
-    protected String name;
+    private String name;
 
     @NotNull
     @Column(name = "updated_date")
-    protected LocalDateTime lastUpdatedDate;
+    private LocalDateTime lastUpdatedDate;
 
     @Embedded
-    protected QuantityEmbeddableEntity quantity;
+    private QuantityEmbeddableEntity quantity;
 
     @Column(name = "description")
-    protected String description;
+    private String description;
 
     @Column(name = "image")
-    protected byte[] image;
+    private byte[] image;
 
     public String getName() {
         return name;
@@ -67,5 +68,16 @@ public class ProductEntity {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductEntity{" +
+                "name='" + name + '\'' +
+                ", lastUpdatedDate=" + lastUpdatedDate +
+                ", quantity=" + quantity +
+                ", description='" + description + '\'' +
+                ", image=" + Arrays.toString(image) +
+                '}';
     }
 }

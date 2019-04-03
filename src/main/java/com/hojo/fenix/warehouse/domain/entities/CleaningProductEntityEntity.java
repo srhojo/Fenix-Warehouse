@@ -9,7 +9,7 @@ import javax.persistence.Table;
 public class CleaningProductEntityEntity extends ProductEntity {
 
     @Column(name="room")
-    public String room;
+    private String room;
 
     public String getRoom() {
         return room;

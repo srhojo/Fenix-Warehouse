@@ -18,6 +18,13 @@ public class ExceptionConstants {
     public static final String ERRORS_DAO_ENTITY_NOT_FOUND_CODE = "011";
     public static final String ERRORS_DAO_ENTITY_NOT_FOUND_MESSAGE = "Entity not found: [Id: %s ].";
 
+    public static final String ERRORS_DAO_SAVE_FOOD_CODE = "020";
+    public static final String ERRORS_DAO_SAVE_FOOD_MESSAGE = "An error has occurred saving food: { object: %s , error: %s }.";
+
+    public static final String ERRORS_DAO_SAVE_SHOPPING_LIST_CODE = "030";
+    public static final String ERRORS_DAO_SAVE_SHOPPING_LIST_MESSAGE = "An error has occurred saving shopping list: { object: %s , error: %s }.";
+
+
     /**
      * Services Exceptions
      */

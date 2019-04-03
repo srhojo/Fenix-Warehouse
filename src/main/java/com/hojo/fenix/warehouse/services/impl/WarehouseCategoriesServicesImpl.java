@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class WarehouseCategoriesServicesImpl implements WarehouseCategoriesServices {
+class WarehouseCategoriesServicesImpl implements WarehouseCategoriesServices {
 
     private final WarehouseDao warehouseDao;
     private final QueryLanguajeComponentImpl<FoodCategoryEntity> qlCategory;

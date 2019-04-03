@@ -26,8 +26,7 @@ public class ShoppingListEntity {
     @Column(name = "description", length = 500)
     private String description;
 
-    @OneToMany
-    @JoinColumn(name = "shopping_list_id")
+    @OneToMany(cascade = CascadeType.ALL)
     @MapKey(name = "id.shoppingListId")
     private Map<String, ShoppingListItemsEntity> items;
 
@@ -69,5 +68,16 @@ public class ShoppingListEntity {
 
     public void setItems(Map<String, ShoppingListItemsEntity> items) {
         this.items = items;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingListEntity{" +
+                "id=" + id +
+                ", lastUpdatedDate=" + lastUpdatedDate +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", items=" + items +
+                '}';
     }
 }

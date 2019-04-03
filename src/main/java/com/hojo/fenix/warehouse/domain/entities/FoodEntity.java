@@ -1,19 +1,11 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 /**
  * @author hojo
- *
  */
 @Entity
 @Table(name = "warehouse_food_products")
@@ -21,13 +13,13 @@ public class FoodEntity extends ProductEntity {
 
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "food_category_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_name", nullable = false)
     private FoodCategoryEntity category;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "food_sub_category_id")
-    private FoodSubCategoryEntity foodSubCategoryEntity;
+    @ManyToOne
+    @JoinColumn(name = "sub_category_name")
+    private FoodSubCategoryEntity subCategory;
 
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
@@ -40,12 +32,12 @@ public class FoodEntity extends ProductEntity {
         this.category = category;
     }
 
-    public FoodSubCategoryEntity getFoodSubCategoryEntity() {
-        return foodSubCategoryEntity;
+    public FoodSubCategoryEntity getSubCategory() {
+        return subCategory;
     }
 
-    public void setFoodSubCategoryEntity(FoodSubCategoryEntity foodSubCategoryEntity) {
-        this.foodSubCategoryEntity = foodSubCategoryEntity;
+    public void setSubCategory(FoodSubCategoryEntity subCategory) {
+        this.subCategory = subCategory;
     }
 
     public LocalDate getExpirationDate() {
@@ -54,5 +46,14 @@ public class FoodEntity extends ProductEntity {
 
     public void setExpirationDate(LocalDate expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "FoodEntity{" +
+                "category=" + category +
+                ", subCategory=" + subCategory +
+                ", expirationDate=" + expirationDate +
+                '}';
     }
 }

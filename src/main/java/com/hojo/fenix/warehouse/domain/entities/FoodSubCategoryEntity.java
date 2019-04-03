@@ -1,7 +1,7 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import java.util.Arrays;
 
 /**
  * @author hojo
@@ -11,8 +11,8 @@ import javax.validation.constraints.NotEmpty;
 public class FoodSubCategoryEntity {
 
 
-    @Column(name = "category_id")
-    private String categoryId;
+    @Column(name = "category_name")
+    private String categoryName;
 
     @Id
     @Column(name = "name")
@@ -24,12 +24,12 @@ public class FoodSubCategoryEntity {
     @Column(name = "image")
     private byte[] image;
 
-    public String getCategoryId() {
-        return categoryId;
+    public String getCategoryName() {
+        return categoryName;
     }
 
-    public void setCategoryId(String categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
     public String getName() {
@@ -54,5 +54,15 @@ public class FoodSubCategoryEntity {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    @Override
+    public String toString() {
+        return "FoodSubCategoryEntity{" +
+                "categoryName='" + categoryName + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", image=" + Arrays.toString(image) +
+                '}';
     }
 }

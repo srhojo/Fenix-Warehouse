@@ -16,7 +16,7 @@ import static com.hojo.fenix.warehouse.utils.exceptions.ExceptionConstants.*;
 
 @Repository
 @Transactional
-public class WarehouseShoppingListDaoImpl implements WarehouseShoppingListDao {
+class WarehouseShoppingListDaoImpl implements WarehouseShoppingListDao {
 
     private final ShoppingListRepository shoppingListRepository;
 
@@ -52,7 +52,8 @@ public class WarehouseShoppingListDaoImpl implements WarehouseShoppingListDao {
         if (!StringUtils.isEmpty(shoppingListEntity.getId())) {
             throw new WarehouseException(HttpStatus.METHOD_NOT_ALLOWED, ERRORS_DAO_NOT_UPDATE_CODE, ERRORS_DAO_NOT_UPDATE_MESSAGE);
         }
-        return shoppingListRepository.save(shoppingListEntity);
+        return save(shoppingListEntity);
+
     }
 
 
@@ -62,7 +63,15 @@ public class WarehouseShoppingListDaoImpl implements WarehouseShoppingListDao {
     @Override
     public ShoppingListEntity update(ShoppingListEntity shoppingListEntity) {
         this.getById(shoppingListEntity.getId());
-        return shoppingListRepository.save(shoppingListEntity);
+        return save(shoppingListEntity);
+    }
+
+    private ShoppingListEntity save(ShoppingListEntity shoppingListEntity) {
+        try{
+            return shoppingListRepository.save(shoppingListEntity);
+        }catch (Exception ex){
+            throw new WarehouseException(HttpStatus.INTERNAL_SERVER_ERROR, ERRORS_DAO_SAVE_SHOPPING_LIST_CODE, String.format(ERRORS_DAO_SAVE_SHOPPING_LIST_MESSAGE,shoppingListEntity,ex.getMessage()));
+        }
     }
 
 

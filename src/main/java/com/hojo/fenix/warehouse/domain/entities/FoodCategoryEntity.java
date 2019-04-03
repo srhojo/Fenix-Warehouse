@@ -3,7 +3,6 @@ package com.hojo.fenix.warehouse.domain.entities;
 import java.util.List;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 /**
  * @author hojo
@@ -23,8 +22,8 @@ public class FoodCategoryEntity {
     @Column(name = "image")
     private byte[] image;
 
-    @OneToMany
-    @JoinColumn(name="category_id", referencedColumnName = "name")
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name="category_name", referencedColumnName = "name")
     private List<FoodSubCategoryEntity> subcategories;
 
     public String getName() {

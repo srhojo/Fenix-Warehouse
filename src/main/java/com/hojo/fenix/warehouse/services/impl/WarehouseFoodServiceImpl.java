@@ -1,6 +1,6 @@
 package com.hojo.fenix.warehouse.services.impl;
 
-import com.hojo.fenix.warehouse.dao.WarehouseDao;
+import com.hojo.fenix.warehouse.dao.WarehouseFoodDao;
 import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
 import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
 import com.hojo.fenix.warehouse.domain.entities.FoodEntity;
@@ -17,14 +17,14 @@ import java.time.LocalDateTime;
  * @author hojo
  */
 @Service
-public class WarehouseFoodServiceImpl implements WarehouseFoodService {
+class WarehouseFoodServiceImpl implements WarehouseFoodService {
 
-    private final WarehouseDao warehouseDao;
+    private final WarehouseFoodDao warehouseDao;
     private final QueryLanguajeComponentImpl<FoodEntity> qlFood;
 
-    public WarehouseFoodServiceImpl(final WarehouseDao warehouseDao,
+    public WarehouseFoodServiceImpl(final WarehouseFoodDao warehouseFoodDao,
                                     final QueryLanguajeComponentImpl<FoodEntity> qlFood) {
-        this.warehouseDao = warehouseDao;
+        this.warehouseDao = warehouseFoodDao;
         this.qlFood = qlFood;
     }
 
@@ -54,8 +54,10 @@ public class WarehouseFoodServiceImpl implements WarehouseFoodService {
         entity.setDescription(food.getDescription());
         entity.setCategory(new FoodCategoryEntity());
         entity.getCategory().setName(food.getCategoryName());
-        entity.setFoodSubCategoryEntity(new FoodSubCategoryEntity());
-        entity.getFoodSubCategoryEntity().setName(food.getSubCategoryName());
+        if (food.getSubCategoryName() != null) {
+            entity.setSubCategory(new FoodSubCategoryEntity());
+            entity.getSubCategory().setName(food.getSubCategoryName());
+        }
         QuantityEmbeddableEntity quantityEntity = new QuantityEmbeddableEntity();
         quantityEntity.setUnities(food.getQuantity().getUnities());
         quantityEntity.setValue(food.getQuantity().getValue());

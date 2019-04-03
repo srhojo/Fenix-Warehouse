@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class WarehouseShoppingListServiceImpl implements WarehouseShoppingListService {
+class WarehouseShoppingListServiceImpl implements WarehouseShoppingListService {
 
 
     private final WarehouseShoppingListDao warehouseShoppingListDao;

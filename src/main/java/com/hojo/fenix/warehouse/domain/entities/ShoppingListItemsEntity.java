@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="warehouse_shopping_list_items")
+@Table(name = "warehouse_shopping_list_items")
 public class ShoppingListItemsEntity {
 
     @EmbeddedId
@@ -30,5 +30,13 @@ public class ShoppingListItemsEntity {
 
     public void setQuantity(QuantityEmbeddableEntity quantity) {
         this.quantity = quantity;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingListItemsEntity{" +
+                "id=" + id +
+                ", quantity=" + quantity +
+                '}';
     }
 }

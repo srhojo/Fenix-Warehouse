@@ -6,7 +6,8 @@ spring:
     password: root
   jpa:
     hibernate:
-      ddl-auto: create-drop    
+      #ddl-auto: create-drop
+      ddl-auto: update
       naming:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
@@ -19,5 +20,10 @@ spring:
   data:
     rest:
       basePath: /warehouse
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+
+
 
 

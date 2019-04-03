@@ -30,4 +30,12 @@ public class QuantityEmbeddableEntity {
     public void setUnities(UnitiesEnum unities) {
         Unities = unities;
     }
+
+    @Override
+    public String toString() {
+        return "QuantityEmbeddableEntity{" +
+                "value=" + value +
+                ", Unities=" + Unities +
+                '}';
+    }
 }

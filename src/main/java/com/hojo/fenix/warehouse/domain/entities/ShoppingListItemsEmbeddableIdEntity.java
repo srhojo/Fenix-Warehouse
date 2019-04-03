@@ -13,8 +13,8 @@ public class ShoppingListItemsEmbeddableIdEntity implements Serializable {
     @Column(name = "shopping_list_id")
     private Long shoppingListId;
 
-    @Column(name = "product_id")
     @Size(max = 500)
+    @Column(name = "product_id")
     private String productId;
 
     public Long getShoppingListId() {
@@ -31,5 +31,13 @@ public class ShoppingListItemsEmbeddableIdEntity implements Serializable {
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    @Override
+    public String toString() {
+        return "ShoppingListItemsEmbeddableIdEntity{" +
+                "shoppingListId=" + shoppingListId +
+                ", productId='" + productId + '\'' +
+                '}';
     }
 }
