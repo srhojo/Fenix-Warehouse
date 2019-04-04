@@ -1,5 +1,7 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import java.util.List;
 
 import javax.persistence.*;

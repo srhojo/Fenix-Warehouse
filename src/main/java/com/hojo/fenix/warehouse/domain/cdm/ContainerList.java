@@ -7,10 +7,8 @@ import java.util.List;
  */
 public class ContainerList<T> {
 
-    // Valores
     private List<T> values;
-
-    // Paginación??
+    private OffsetPagination pagination;
 
     public ContainerList() {
         // do nothing
@@ -21,6 +19,10 @@ public class ContainerList<T> {
         this.values = values;
     }
 
+    public ContainerList(List<T> values, OffsetPagination pagination) {
+        this.values = values;
+        this.pagination = pagination;
+    }
 
     /**
      * @return the values
@@ -36,4 +38,11 @@ public class ContainerList<T> {
         this.values = values;
     }
 
+    public OffsetPagination getPagination() {
+        return pagination;
+    }
+
+    public void setPagination(OffsetPagination pagination) {
+        this.pagination = pagination;
+    }
 }

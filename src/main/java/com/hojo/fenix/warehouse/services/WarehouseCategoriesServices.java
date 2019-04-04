@@ -17,7 +17,7 @@ public interface WarehouseCategoriesServices {
 
     FoodCategoryEntity updateSubCategoriesToCategory(CategoryUpdateSubCategoriesRequest request);
 
-    ContainerList<FoodCategoryEntity> getCategories(String filter);
+    ContainerList<FoodCategoryEntity> getCategories(String filter,Integer limit, Long offset);
 
     ContainerList<FoodSubCategoryEntity> createSubCategories(List<FoodSubCategoryEntity> subCategoryEntities);
 

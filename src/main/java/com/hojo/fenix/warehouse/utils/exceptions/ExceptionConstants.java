@@ -10,6 +10,10 @@ public class ExceptionConstants {
      */
     public static final String ERRORS_GENERIC_CODE = "001";
     public static final String ERRORS_GENERIC_MESSAGE = "An error has occurred [message=%s].";
+
+
+    public static final String ERRORS_VALIDATION_CODE = "002";
+    public static final String ERRORS_VALIDATION_MESSAGE = "A validation error has occurred [message=%s].";
     /**
      * DAO Exceptions
      */

@@ -2,13 +2,14 @@ package com.hojo.fenix.warehouse.services.impl;
 
 import com.hojo.fenix.warehouse.dao.WarehouseCategoriesDao;
 import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
+import com.hojo.fenix.warehouse.domain.cdm.OffsetPagination;
+import com.hojo.fenix.warehouse.domain.cdm.OffsetPaginationRequest;
 import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
 import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
 import com.hojo.fenix.warehouse.domain.requests.CategoryUpdateSubCategoriesRequest;
 import com.hojo.fenix.warehouse.services.WarehouseCategoriesServices;
 import com.hojo.fenix.warehouse.utils.ql.QueryLanguajeComponentImpl;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -76,11 +77,11 @@ class WarehouseCategoriesServicesImpl implements WarehouseCategoriesServices {
      * {@inheritDoc}
      */
     @Override
-    public ContainerList<FoodCategoryEntity> getCategories(final String filter) {
-
-        Pageable pageable = PageRequest.of(0,2);
-        Page<FoodCategoryEntity> page = warehouseDao.searchCategories(qlCategory.parse(filter),pageable);
-        return new ContainerList<>(page.get().collect(Collectors.toList()));
+    public ContainerList<FoodCategoryEntity> getCategories(final String filter,Integer limit, Long offset) {
+        Pageable pageable = OffsetPaginationRequest.of(limit,offset);
+        Page<FoodCategoryEntity> categoryEntityPage = warehouseDao.searchCategories(qlCategory.parse(filter),pageable);
+        OffsetPagination offsetPagination = new OffsetPagination(limit,offset,categoryEntityPage.getTotalElements());
+        return new ContainerList<>(categoryEntityPage.get().collect(Collectors.toList()),offsetPagination);
     }
 
     /**

@@ -1,23 +1,26 @@
 package com.hojo.fenix.warehouse.controllers;
 
 import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
-import com.hojo.fenix.warehouse.domain.entities.*;
+import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
 import com.hojo.fenix.warehouse.domain.requests.CategoryUpdateSubCategoriesRequest;
 import com.hojo.fenix.warehouse.services.WarehouseCategoriesServices;
-
 import com.hojo.fenix.warehouse.utils.aop.WarehouseLogger;
 import com.hojo.fenix.warehouse.utils.exceptions.WarehouseExceptionResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * @author hojo
  */
+@Validated
 @RestController
 @WarehouseLogger
 @RequestMapping("/categories")
@@ -66,7 +69,7 @@ public class WarehouseCategoriesController {
         return warehouseCategoriesServices.updateSubCategoriesToCategory(request);
     }
 
-    @GetMapping()
+    @GetMapping
     @ApiOperation(value = "Category search method", response = ContainerList.class, nickname = "getCategories", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retrieve category successfully", response = ContainerList.class),
@@ -76,8 +79,12 @@ public class WarehouseCategoriesController {
     })
     public ContainerList<FoodCategoryEntity> getCategories(
             @ApiParam(name = "filter", example = "filter=name~food,description~meat")
-            @RequestParam(value = "filter", required = false) final String filter) {
-        return warehouseCategoriesServices.getCategories(filter);
+            @RequestParam(value = "filter", required = false) final String filter,
+            @ApiParam(name = "limit", example = "2") @Valid
+            @RequestParam(value = "limit", required = false) @Min(value = 1, message = "Limit size must not be less than one!") final Integer limit,
+            @ApiParam(name = "offset", example = "0") @Valid
+            @RequestParam(value = "offset", required = false) @Min(value = 0L, message = "Offset size must not be less than zero!") final Long offset) {
+        return warehouseCategoriesServices.getCategories(filter, limit, offset);
     }
 
     @PostMapping("/subcategories")
@@ -105,8 +112,6 @@ public class WarehouseCategoriesController {
             @RequestParam(value = "filter", required = false) final String filter) {
         return warehouseCategoriesServices.searchSubCategories(filter);
     }
-
-
 
 
 }

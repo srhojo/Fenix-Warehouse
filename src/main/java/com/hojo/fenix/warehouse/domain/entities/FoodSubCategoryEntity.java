@@ -1,5 +1,7 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
+import org.springframework.hateoas.ResourceSupport;
+
 import javax.persistence.*;
 import java.util.Arrays;
 
@@ -8,7 +10,7 @@ import java.util.Arrays;
  */
 @Entity
 @Table(name = "warehouse_food_sub_categories")
-public class FoodSubCategoryEntity {
+public class FoodSubCategoryEntity extends ResourceSupport {
 
 
     @Column(name = "category_name")

@@ -66,14 +66,6 @@ class WarehouseShoppingListDaoImpl implements WarehouseShoppingListDao {
         return save(shoppingListEntity);
     }
 
-    private ShoppingListEntity save(ShoppingListEntity shoppingListEntity) {
-        try{
-            return shoppingListRepository.save(shoppingListEntity);
-        }catch (Exception ex){
-            throw new WarehouseException(HttpStatus.INTERNAL_SERVER_ERROR, ERRORS_DAO_SAVE_SHOPPING_LIST_CODE, String.format(ERRORS_DAO_SAVE_SHOPPING_LIST_MESSAGE,shoppingListEntity,ex.getMessage()));
-        }
-    }
-
 
     /**
      * {@inheritDoc}
@@ -82,5 +74,13 @@ class WarehouseShoppingListDaoImpl implements WarehouseShoppingListDao {
     public void delete(Long id) {
         ShoppingListEntity entity = this.getById(id);
         shoppingListRepository.delete(entity);
+    }
+
+    private ShoppingListEntity save(ShoppingListEntity shoppingListEntity) {
+        try {
+            return shoppingListRepository.save(shoppingListEntity);
+        } catch (Exception ex) {
+            throw new WarehouseException(HttpStatus.INTERNAL_SERVER_ERROR, ERRORS_DAO_SAVE_SHOPPING_LIST_CODE, String.format(ERRORS_DAO_SAVE_SHOPPING_LIST_MESSAGE, shoppingListEntity, ex.getMessage()));
+        }
     }
 }
