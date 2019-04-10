@@ -123,9 +123,10 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
     public void deleteSubcategory(String name) {
         ProductSubCategoryEntity productSubCategoryEntity = getSubcategory(name);
         if (productSubCategoryEntity.getCategoryName() != null) {
-            ProductCategoryEntity productCategoryEntity = categoryRepository.findById(productSubCategoryEntity.getCategoryName()).get();
-            productCategoryEntity.getSubcategories().removeIf(sc -> sc.getCategoryName().equals(name));
-            categoryRepository.save(productCategoryEntity);
+            categoryRepository.findById(productSubCategoryEntity.getCategoryName()).ifPresent(productCategoryEntity -> {
+                productCategoryEntity.getSubcategories().removeIf(sc -> sc.getCategoryName().equals(name));
+                categoryRepository.save(productCategoryEntity);
+            });
         }
         subCategoryRepository.deleteById(name);
     }
