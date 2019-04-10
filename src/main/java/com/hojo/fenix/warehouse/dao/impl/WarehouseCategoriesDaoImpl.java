@@ -3,8 +3,8 @@ package com.hojo.fenix.warehouse.dao.impl;
 import com.hojo.fenix.warehouse.dao.WarehouseCategoriesDao;
 import com.hojo.fenix.warehouse.dao.repositories.CategoryRepository;
 import com.hojo.fenix.warehouse.dao.repositories.SubCategoryRepository;
-import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
-import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.ProductCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.ProductSubCategoryEntity;
 import com.hojo.fenix.warehouse.utils.exceptions.WarehouseException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,11 +35,11 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
      * {@inheritDoc}
      */
     @Override
-    public FoodCategoryEntity createCategory(final FoodCategoryEntity foodCategoryEntity) {
-        if (categoryRepository.existsById(foodCategoryEntity.getName())) {
+    public ProductCategoryEntity createCategory(final ProductCategoryEntity productCategoryEntity) {
+        if (categoryRepository.existsById(productCategoryEntity.getName())) {
             throw new WarehouseException(HttpStatus.METHOD_NOT_ALLOWED, ERRORS_DAO_NOT_UPDATE_CODE, ERRORS_DAO_NOT_UPDATE_MESSAGE);
         }
-        return categoryRepository.save(foodCategoryEntity);
+        return categoryRepository.save(productCategoryEntity);
 
     }
 
@@ -47,16 +47,16 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
      * {@inheritDoc}
      */
     @Override
-    public FoodCategoryEntity updateCategory(final FoodCategoryEntity foodCategoryEntity) {
-        this.getCategory(foodCategoryEntity.getName());
-        return categoryRepository.save(foodCategoryEntity);
+    public ProductCategoryEntity updateCategory(final ProductCategoryEntity productCategoryEntity) {
+        this.getCategory(productCategoryEntity.getName());
+        return categoryRepository.save(productCategoryEntity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public FoodCategoryEntity getCategory(final String name) {
+    public ProductCategoryEntity getCategory(final String name) {
         return categoryRepository.findById(name).orElseThrow(() -> new WarehouseException(HttpStatus.NOT_FOUND, ERRORS_DAO_ENTITY_NOT_FOUND_CODE,
                 String.format(ERRORS_DAO_ENTITY_NOT_FOUND_MESSAGE, name)));
     }
@@ -66,7 +66,7 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
      */
     @Override
     public void deleteCategory(final String name) {
-        final FoodCategoryEntity category = this.getCategory(name);
+        final ProductCategoryEntity category = this.getCategory(name);
         category.getSubcategories().forEach(subCategoryEntity -> {
             subCategoryEntity.setCategoryName(null);
             subCategoryRepository.save(subCategoryEntity);
@@ -78,12 +78,12 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
      * {@inheritDoc}
      */
     @Override
-    public List<FoodCategoryEntity> searchCategories(final Specification<FoodCategoryEntity> spec) {
+    public List<ProductCategoryEntity> searchCategories(final Specification<ProductCategoryEntity> spec) {
         return categoryRepository.findAll(spec);
     }
 
     @Override
-    public Page<FoodCategoryEntity> searchCategories(Specification<FoodCategoryEntity> spec, Pageable pageable) {
+    public Page<ProductCategoryEntity> searchCategories(Specification<ProductCategoryEntity> spec, Pageable pageable) {
         return categoryRepository.findAll(spec, pageable);
     }
 
@@ -91,27 +91,27 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
      * {@inheritDoc}
      */
     @Override
-    public FoodSubCategoryEntity createSubCategory(final FoodSubCategoryEntity foodSubCategoryEntity) {
-        if (subCategoryRepository.existsById(foodSubCategoryEntity.getName())) {
+    public ProductSubCategoryEntity createSubCategory(final ProductSubCategoryEntity productSubCategoryEntity) {
+        if (subCategoryRepository.existsById(productSubCategoryEntity.getName())) {
             throw new WarehouseException(HttpStatus.METHOD_NOT_ALLOWED, ERRORS_DAO_NOT_UPDATE_CODE, ERRORS_DAO_NOT_UPDATE_MESSAGE);
         }
-        return subCategoryRepository.save(foodSubCategoryEntity);
+        return subCategoryRepository.save(productSubCategoryEntity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public FoodSubCategoryEntity updateSubCategory(final FoodSubCategoryEntity foodSubCategoryEntity) {
-        this.getSubcategory(foodSubCategoryEntity.getName());
-        return subCategoryRepository.save(foodSubCategoryEntity);
+    public ProductSubCategoryEntity updateSubCategory(final ProductSubCategoryEntity productSubCategoryEntity) {
+        this.getSubcategory(productSubCategoryEntity.getName());
+        return subCategoryRepository.save(productSubCategoryEntity);
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public FoodSubCategoryEntity getSubcategory(final String name) {
+    public ProductSubCategoryEntity getSubcategory(final String name) {
         return subCategoryRepository.findById(name).orElseThrow(() -> new WarehouseException(HttpStatus.NOT_FOUND, ERRORS_DAO_ENTITY_NOT_FOUND_CODE,
                 String.format(ERRORS_DAO_ENTITY_NOT_FOUND_MESSAGE, name)));
     }
@@ -121,11 +121,11 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
      */
     @Override
     public void deleteSubcategory(String name) {
-        FoodSubCategoryEntity foodSubCategoryEntity = getSubcategory(name);
-        if (foodSubCategoryEntity.getCategoryName() != null) {
-            FoodCategoryEntity foodCategoryEntity = categoryRepository.findById(foodSubCategoryEntity.getCategoryName()).get();
-            foodCategoryEntity.getSubcategories().removeIf(sc -> sc.getCategoryName().equals(name));
-            categoryRepository.save(foodCategoryEntity);
+        ProductSubCategoryEntity productSubCategoryEntity = getSubcategory(name);
+        if (productSubCategoryEntity.getCategoryName() != null) {
+            ProductCategoryEntity productCategoryEntity = categoryRepository.findById(productSubCategoryEntity.getCategoryName()).get();
+            productCategoryEntity.getSubcategories().removeIf(sc -> sc.getCategoryName().equals(name));
+            categoryRepository.save(productCategoryEntity);
         }
         subCategoryRepository.deleteById(name);
     }
@@ -134,10 +134,18 @@ class WarehouseCategoriesDaoImpl implements WarehouseCategoriesDao {
      * {@inheritDoc}
      */
     @Override
-    public List<FoodSubCategoryEntity> searchSubCategories(final Specification<FoodSubCategoryEntity> specification) {
+    public List<ProductSubCategoryEntity> searchSubCategories(final Specification<ProductSubCategoryEntity> specification) {
         return subCategoryRepository.findAll(specification);
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<ProductSubCategoryEntity> searchSubCategories(Specification<ProductSubCategoryEntity> specification, Pageable pageable) {
+        return subCategoryRepository.findAll(specification, pageable);
+    }
 
 
 }

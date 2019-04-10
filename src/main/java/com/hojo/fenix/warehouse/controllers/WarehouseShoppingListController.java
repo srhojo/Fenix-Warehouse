@@ -14,7 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-
+import javax.validation.constraints.Min;
 
 
 @Validated
@@ -50,8 +50,12 @@ public class WarehouseShoppingListController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public ContainerList getShoppingLists(@ApiParam(name = "filter", example = "filter=") @RequestParam(value = "filter", required = false) final String filter) {
-        return warehouseShoppingListService.getShoppingLists(filter);
+    public ContainerList getShoppingLists(@ApiParam(name = "filter", example = "filter=") @RequestParam(value = "filter", required = false) final String filter,
+                                          @ApiParam(name = "limit", example = "2") @Valid
+                                          @RequestParam(value = "limit", required = false) @Min(value = 1, message = "Limit size must not be less than one!") final Integer limit,
+                                          @ApiParam(name = "offset", example = "0") @Valid
+                                          @RequestParam(value = "offset", required = false) @Min(value = 0L, message = "Offset size must not be less than zero!") final Long offset) {
+        return warehouseShoppingListService.getShoppingLists(filter, limit, offset);
     }
 
 

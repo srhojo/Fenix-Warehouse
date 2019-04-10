@@ -1,18 +1,14 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
-import org.springframework.hateoas.ResourceSupport;
-
-import java.util.List;
-
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * @author hojo
- *
  */
 @Entity
-@Table(name = "warehouse_food_categories")
-public class FoodCategoryEntity {
+@Table(name = "warehouse_product_categories")
+public class ProductCategoryEntity {
 
     @Id
     @Column(name = "name")
@@ -25,8 +21,8 @@ public class FoodCategoryEntity {
     private byte[] image;
 
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name="category_name", referencedColumnName = "name")
-    private List<FoodSubCategoryEntity> subcategories;
+    @JoinColumn(name = "category_name", referencedColumnName = "name")
+    private List<ProductSubCategoryEntity> subcategories;
 
     public String getName() {
         return name;
@@ -52,11 +48,11 @@ public class FoodCategoryEntity {
         this.image = image;
     }
 
-    public List<FoodSubCategoryEntity> getSubcategories() {
+    public List<ProductSubCategoryEntity> getSubcategories() {
         return subcategories;
     }
 
-    public void setSubcategories(List<FoodSubCategoryEntity> subcategories) {
+    public void setSubcategories(List<ProductSubCategoryEntity> subcategories) {
         this.subcategories = subcategories;
     }
 }

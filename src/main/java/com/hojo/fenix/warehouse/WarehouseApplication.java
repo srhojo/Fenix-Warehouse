@@ -15,8 +15,6 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-import java.util.function.Predicate;
-
 @EnableSwagger2
 @SpringBootApplication
 @EnableAspectJAutoProxy

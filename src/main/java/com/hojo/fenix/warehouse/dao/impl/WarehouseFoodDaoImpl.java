@@ -4,6 +4,8 @@ import com.hojo.fenix.warehouse.dao.WarehouseFoodDao;
 import com.hojo.fenix.warehouse.dao.repositories.FoodRepository;
 import com.hojo.fenix.warehouse.domain.entities.FoodEntity;
 import com.hojo.fenix.warehouse.utils.exceptions.WarehouseException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -66,5 +68,10 @@ class WarehouseFoodDaoImpl implements WarehouseFoodDao {
     @Override
     public List<FoodEntity> searchFoods(final Specification<FoodEntity> specification) {
         return foodRepository.findAll(specification);
+    }
+
+    @Override
+    public Page<FoodEntity> searchFoods(Specification<FoodEntity> specification, Pageable pageable) {
+        return foodRepository.findAll(specification, pageable);
     }
 }

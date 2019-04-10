@@ -20,9 +20,11 @@ public interface WarehouseShoppingListService {
      * Return a container with list witch contains shopping list filtered
      *
      * @param filter Search filter
+     * @param limit pagination limit request
+     * @param offset pagination offset request
      * @return Container with shopping list entities
      */
-    ContainerList<ShoppingListEntity> getShoppingLists(String filter);
+    ContainerList<ShoppingListEntity> getShoppingLists(String filter, Integer limit, Long offset);
 
     /**
      * The method create or update shopping list data

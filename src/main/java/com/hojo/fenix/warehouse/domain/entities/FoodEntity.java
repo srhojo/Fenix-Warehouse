@@ -15,28 +15,28 @@ public class FoodEntity extends ProductEntity {
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_name", nullable = false)
-    private FoodCategoryEntity category;
+    private ProductCategoryEntity category;
 
     @ManyToOne
     @JoinColumn(name = "sub_category_name")
-    private FoodSubCategoryEntity subCategory;
+    private ProductSubCategoryEntity subCategory;
 
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
-    public FoodCategoryEntity getCategory() {
+    public ProductCategoryEntity getCategory() {
         return category;
     }
 
-    public void setCategory(FoodCategoryEntity category) {
+    public void setCategory(ProductCategoryEntity category) {
         this.category = category;
     }
 
-    public FoodSubCategoryEntity getSubCategory() {
+    public ProductSubCategoryEntity getSubCategory() {
         return subCategory;
     }
 
-    public void setSubCategory(FoodSubCategoryEntity subCategory) {
+    public void setSubCategory(ProductSubCategoryEntity subCategory) {
         this.subCategory = subCategory;
     }
 

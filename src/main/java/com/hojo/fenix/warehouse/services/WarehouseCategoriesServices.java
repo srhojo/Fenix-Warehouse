@@ -1,25 +1,27 @@
 package com.hojo.fenix.warehouse.services;
 
 import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
-import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
-import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.ProductCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.ProductSubCategoryEntity;
+import com.hojo.fenix.warehouse.domain.requests.CategoryRequest;
 import com.hojo.fenix.warehouse.domain.requests.CategoryUpdateSubCategoriesRequest;
-
-import java.util.List;
+import com.hojo.fenix.warehouse.domain.requests.SubCategoryRequest;
 
 public interface WarehouseCategoriesServices {
 
-    ContainerList<FoodCategoryEntity> createCategories(List<FoodCategoryEntity> categoryEntities);
+    ProductCategoryEntity createCategory(CategoryRequest categoryEntities);
+
+    ProductCategoryEntity updateCategory(CategoryRequest categoryEntities);
+
+    ProductCategoryEntity updateSubCategoriesToCategory(CategoryUpdateSubCategoriesRequest request);
+
+    ContainerList<ProductCategoryEntity> getCategories(String filter, Integer limit, Long offset);
 
     void deleteCategory(String name);
 
-    ContainerList<FoodCategoryEntity> updateCategories(List<FoodCategoryEntity> categoryEntities);
+    ProductSubCategoryEntity createSubCategory(SubCategoryRequest subCategoryRequest);
 
-    FoodCategoryEntity updateSubCategoriesToCategory(CategoryUpdateSubCategoriesRequest request);
+    ProductSubCategoryEntity updateSubCategory(SubCategoryRequest subCategoryRequest);
 
-    ContainerList<FoodCategoryEntity> getCategories(String filter,Integer limit, Long offset);
-
-    ContainerList<FoodSubCategoryEntity> createSubCategories(List<FoodSubCategoryEntity> subCategoryEntities);
-
-    ContainerList<FoodSubCategoryEntity> searchSubCategories(String filter);
+    ContainerList<ProductSubCategoryEntity> searchSubCategories(String filter, Integer limit, Long offset);
 }

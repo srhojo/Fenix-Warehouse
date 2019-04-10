@@ -82,11 +82,11 @@ public class OffsetPaginationRequest implements Pageable, Serializable {
 
     @Override
     public Pageable next() {
-        return new OffsetPaginationRequest(Long.valueOf(getOffset()).intValue() + getPageSize(), Long.valueOf(getPageSize()), getSort());
+        return new OffsetPaginationRequest(Long.valueOf(getOffset()).intValue() + getPageSize(), (long) getPageSize(), getSort());
     }
 
-    public OffsetPaginationRequest previous() {
-        return hasPrevious() ? new OffsetPaginationRequest(Long.valueOf(getOffset()).intValue() + getPageSize(), Long.valueOf(getPageSize()), getSort()) : this;
+    private OffsetPaginationRequest previous() {
+        return hasPrevious() ? new OffsetPaginationRequest(Long.valueOf(getOffset()).intValue() + getPageSize(), (long) getPageSize(), getSort()) : this;
     }
 
 
@@ -97,7 +97,7 @@ public class OffsetPaginationRequest implements Pageable, Serializable {
 
     @Override
     public Pageable first() {
-        return new OffsetPaginationRequest(Integer.valueOf(0), Long.valueOf(getPageSize()), getSort());
+        return new OffsetPaginationRequest(0, (long) getPageSize(), getSort());
     }
 
     @Override

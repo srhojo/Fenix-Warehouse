@@ -2,30 +2,35 @@ package com.hojo.fenix.warehouse.services.impl;
 
 import com.hojo.fenix.warehouse.dao.WarehouseShoppingListDao;
 import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
-import com.hojo.fenix.warehouse.domain.entities.QuantityEmbeddableEntity;
+import com.hojo.fenix.warehouse.domain.cdm.OffsetPagination;
+import com.hojo.fenix.warehouse.domain.cdm.OffsetPaginationRequest;
 import com.hojo.fenix.warehouse.domain.entities.ShoppingListEntity;
-import com.hojo.fenix.warehouse.domain.entities.ShoppingListItemsEmbeddableIdEntity;
-import com.hojo.fenix.warehouse.domain.entities.ShoppingListItemsEntity;
+import com.hojo.fenix.warehouse.domain.mappers.ShoppingListItemMapper;
+import com.hojo.fenix.warehouse.domain.mappers.ShoppingListMapper;
 import com.hojo.fenix.warehouse.domain.requests.ShoppingListItemsRequest;
 import com.hojo.fenix.warehouse.domain.requests.ShoppingListRequest;
 import com.hojo.fenix.warehouse.services.WarehouseShoppingListService;
 import com.hojo.fenix.warehouse.utils.ql.QueryLanguajeComponentImpl;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 class WarehouseShoppingListServiceImpl implements WarehouseShoppingListService {
 
 
     private final WarehouseShoppingListDao warehouseShoppingListDao;
+    private final ShoppingListMapper shoppingListMapper;
+    private final ShoppingListItemMapper shoppingListItemMapper;
     private final QueryLanguajeComponentImpl<ShoppingListEntity> qlShoppingList;
 
-    public WarehouseShoppingListServiceImpl(WarehouseShoppingListDao warehouseShoppingListDao, final QueryLanguajeComponentImpl<ShoppingListEntity> qlShoppingList) {
+    public WarehouseShoppingListServiceImpl(WarehouseShoppingListDao warehouseShoppingListDao, ShoppingListMapper shoppingListMapper, ShoppingListItemMapper shoppingListItemMapper, QueryLanguajeComponentImpl<ShoppingListEntity> qlShoppingList) {
         this.warehouseShoppingListDao = warehouseShoppingListDao;
+        this.shoppingListMapper = shoppingListMapper;
+        this.shoppingListItemMapper = shoppingListItemMapper;
         this.qlShoppingList = qlShoppingList;
     }
 
@@ -41,8 +46,16 @@ class WarehouseShoppingListServiceImpl implements WarehouseShoppingListService {
      * {@inheritDoc}
      */
     @Override
-    public ContainerList<ShoppingListEntity> getShoppingLists(String filter) {
-        return new ContainerList<>(warehouseShoppingListDao.search(qlShoppingList.parse(filter)));
+    public ContainerList<ShoppingListEntity> getShoppingLists(String filter, Integer limit, Long offset) {
+        if (offset != null && limit != null) {
+            Pageable pageable = OffsetPaginationRequest.of(limit, offset);
+            final Page<ShoppingListEntity> shoppingListEntityPage = warehouseShoppingListDao.search(qlShoppingList.parse(filter), pageable);
+            final OffsetPagination offsetPagination = new OffsetPagination(limit, offset, shoppingListEntityPage.getTotalElements());
+            return new ContainerList<>(shoppingListEntityPage.get().collect(Collectors.toList()), offsetPagination);
+
+        } else {
+            return new ContainerList<>(warehouseShoppingListDao.search(qlShoppingList.parse(filter)));
+        }
 
     }
 
@@ -51,16 +64,8 @@ class WarehouseShoppingListServiceImpl implements WarehouseShoppingListService {
      */
     @Override
     public ShoppingListEntity saveShoppingList(ShoppingListRequest shoppingListRequest) {
-
-        //Map
-        ShoppingListEntity shoppingListEntity = new ShoppingListEntity();
-        shoppingListEntity.setId(shoppingListRequest.getId());
-        shoppingListEntity.setName(shoppingListRequest.getName());
-        shoppingListEntity.setDescription(shoppingListRequest.getDescription());
-        shoppingListEntity.setLastUpdatedDate(LocalDateTime.now());
-
+        final ShoppingListEntity shoppingListEntity = shoppingListMapper.mapToInner(shoppingListRequest);
         return StringUtils.isEmpty(shoppingListEntity.getId()) ? warehouseShoppingListDao.create(shoppingListEntity) : warehouseShoppingListDao.update(shoppingListEntity);
-
     }
 
     /**
@@ -69,31 +74,7 @@ class WarehouseShoppingListServiceImpl implements WarehouseShoppingListService {
     @Override
     public ShoppingListEntity editShoppingListItems(ShoppingListItemsRequest shoppingListItems) {
         ShoppingListEntity entity = warehouseShoppingListDao.getById(shoppingListItems.getShoppingListId());
-
-        Map<String, ShoppingListItemsEntity> mapItems = new HashMap<>();
-        shoppingListItems.getItems().forEach(item -> {
-
-            //Map el id
-            ShoppingListItemsEntity itemEntity = new ShoppingListItemsEntity();
-            ShoppingListItemsEmbeddableIdEntity shoppingListItemsEmbeddableIdEntity = new ShoppingListItemsEmbeddableIdEntity();
-            shoppingListItemsEmbeddableIdEntity.setProductId(item.getProductId());
-            shoppingListItemsEmbeddableIdEntity.setShoppingListId(entity.getId());
-            itemEntity.setId(shoppingListItemsEmbeddableIdEntity);
-
-
-            //Map quantity value
-            QuantityEmbeddableEntity quantityEmbeddableEntity = new QuantityEmbeddableEntity();
-            quantityEmbeddableEntity.setValue(item.getQuantity().getValue());
-            quantityEmbeddableEntity.setUnities(item.getQuantity().getUnities());
-            itemEntity.setQuantity(quantityEmbeddableEntity);
-
-
-            mapItems.put(item.getProductId(), itemEntity);
-        });
-
-        entity.setItems(mapItems);
-
-
+        entity.setItems(shoppingListItemMapper.mapToInner(shoppingListItems));
         return warehouseShoppingListDao.update(entity);
     }
 

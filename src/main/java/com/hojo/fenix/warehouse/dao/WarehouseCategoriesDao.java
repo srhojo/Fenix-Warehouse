@@ -1,14 +1,13 @@
 package com.hojo.fenix.warehouse.dao;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import com.hojo.fenix.warehouse.domain.entities.ProductCategoryEntity;
+import com.hojo.fenix.warehouse.domain.entities.ProductSubCategoryEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import com.hojo.fenix.warehouse.domain.entities.FoodCategoryEntity;
-import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author hojo
@@ -16,41 +15,43 @@ import com.hojo.fenix.warehouse.domain.entities.FoodSubCategoryEntity;
  */
 public interface WarehouseCategoriesDao {
 
-    FoodCategoryEntity createCategory(FoodCategoryEntity foodCategoryEntity);
+    ProductCategoryEntity createCategory(ProductCategoryEntity productCategoryEntity);
 
-    FoodCategoryEntity updateCategory(FoodCategoryEntity foodCategoryEntity);
+    ProductCategoryEntity updateCategory(ProductCategoryEntity productCategoryEntity);
 
-    FoodCategoryEntity getCategory(String name);
+    ProductCategoryEntity getCategory(String name);
 
-    List<FoodCategoryEntity> searchCategories(Specification<FoodCategoryEntity> spec);
+    List<ProductCategoryEntity> searchCategories(Specification<ProductCategoryEntity> spec);
 
-    Page<FoodCategoryEntity> searchCategories(Specification<FoodCategoryEntity> spec, Pageable pageable);
+    Page<ProductCategoryEntity> searchCategories(Specification<ProductCategoryEntity> spec, Pageable pageable);
 
     void deleteCategory(String name);
 
-    default List<FoodCategoryEntity> createCategories(final List<FoodCategoryEntity> categories) {
+    default List<ProductCategoryEntity> createCategories(final List<ProductCategoryEntity> categories) {
         return categories.stream().map(this::createCategory).collect(Collectors.toList());
     }
 
-    default List<FoodCategoryEntity> updateCategories(final List<FoodCategoryEntity> categories) {
+    default List<ProductCategoryEntity> updateCategories(final List<ProductCategoryEntity> categories) {
         return categories.stream().map(this::updateCategory).collect(Collectors.toList());
     }
 
-    FoodSubCategoryEntity createSubCategory(FoodSubCategoryEntity foodSubCategoryEntity);
+    ProductSubCategoryEntity createSubCategory(ProductSubCategoryEntity productSubCategoryEntity);
 
-    FoodSubCategoryEntity updateSubCategory(FoodSubCategoryEntity foodSubCategoryEntity);
+    ProductSubCategoryEntity updateSubCategory(ProductSubCategoryEntity productSubCategoryEntity);
 
-    FoodSubCategoryEntity getSubcategory(String name);
+    ProductSubCategoryEntity getSubcategory(String name);
 
     void deleteSubcategory(String name);
 
-    List<FoodSubCategoryEntity> searchSubCategories(Specification<FoodSubCategoryEntity> specification);
+    List<ProductSubCategoryEntity> searchSubCategories(Specification<ProductSubCategoryEntity> specification);
 
-    default List<FoodSubCategoryEntity> createSubCategories(final List<FoodSubCategoryEntity> subcategories) {
+    Page<ProductSubCategoryEntity> searchSubCategories(Specification<ProductSubCategoryEntity> specification, Pageable pageable);
+
+    default List<ProductSubCategoryEntity> createSubCategories(final List<ProductSubCategoryEntity> subcategories) {
         return subcategories.stream().map(this::createSubCategory).collect(Collectors.toList());
     }
 
-    default List<FoodSubCategoryEntity> updateSubCategories(final List<FoodSubCategoryEntity> subcategories) {
+    default List<ProductSubCategoryEntity> updateSubCategories(final List<ProductSubCategoryEntity> subcategories) {
         return subcategories.stream().map(this::updateSubCategory).collect(Collectors.toList());
     }
 

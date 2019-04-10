@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
 
 @Validated
 @RestController
@@ -35,8 +36,12 @@ public class WarehouseFoodController {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    public ContainerList<FoodEntity> searchFood(@RequestParam(value = "filter", required = false) String filter) {
-        return warehouseFoodService.searchFoods(filter);
+    public ContainerList<FoodEntity> searchFood(@RequestParam(value = "filter", required = false) String filter,
+                                                @ApiParam(name = "limit", example = "2") @Valid
+                                                @RequestParam(value = "limit", required = false) @Min(value = 1, message = "Limit size must not be less than one!") final Integer limit,
+                                                @ApiParam(name = "offset", example = "0") @Valid
+                                                @RequestParam(value = "offset", required = false) @Min(value = 0L, message = "Offset size must not be less than zero!") final Long offset) {
+        return warehouseFoodService.searchFoods(filter, limit, offset);
     }
 
     @PostMapping()

@@ -3,7 +3,6 @@ package com.hojo.fenix.warehouse.dao.impl;
 import com.hojo.fenix.warehouse.dao.repositories.ShoppingListRepository;
 import com.hojo.fenix.warehouse.domain.entities.ShoppingListEntity;
 import com.hojo.fenix.warehouse.utils.exceptions.WarehouseException;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -17,10 +16,12 @@ import java.util.Optional;
 
 import static com.hojo.fenix.warehouse.utils.exceptions.ExceptionConstants.ERRORS_DAO_NOT_UPDATE_CODE;
 import static com.hojo.fenix.warehouse.utils.exceptions.ExceptionConstants.ERRORS_DAO_SAVE_SHOPPING_LIST_CODE;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
+@SuppressWarnings("unchecked")
 @RunWith(MockitoJUnitRunner.class)
 public class WarehouseShoppingListDaoImplTest {
 
@@ -48,7 +49,7 @@ public class WarehouseShoppingListDaoImplTest {
     public void getById_notFound() {
         //Given
         Long id = 1L;
-        given(shoppingListRepository.findById(id)).willReturn(Optional.ofNullable(null));
+        given(shoppingListRepository.findById(id)).willReturn(Optional.empty());
 
         //When
         warehouseShoppingListDao.getById(id);
@@ -56,8 +57,6 @@ public class WarehouseShoppingListDaoImplTest {
         //Then
         //Exception
     }
-
-
 
 
     @Test
@@ -96,9 +95,8 @@ public class WarehouseShoppingListDaoImplTest {
         //When
         try {
 
-        warehouseShoppingListDao.create(entity);
-        }
-        catch (WarehouseException wex) {
+            warehouseShoppingListDao.create(entity);
+        } catch (WarehouseException wex) {
             //Then
             assertEquals(HttpStatus.METHOD_NOT_ALLOWED,wex.getStatus());
             assertEquals(ERRORS_DAO_NOT_UPDATE_CODE,wex.getCode());
@@ -115,8 +113,7 @@ public class WarehouseShoppingListDaoImplTest {
         //When
         try {
             warehouseShoppingListDao.create(entity);
-        }
-        catch (WarehouseException wex) {
+        } catch (WarehouseException wex) {
             //Then
             assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,wex.getStatus());
             assertEquals(ERRORS_DAO_SAVE_SHOPPING_LIST_CODE,wex.getCode());

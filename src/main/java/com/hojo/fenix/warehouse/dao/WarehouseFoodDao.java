@@ -1,6 +1,8 @@
 package com.hojo.fenix.warehouse.dao;
 
 import com.hojo.fenix.warehouse.domain.entities.FoodEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
@@ -15,6 +17,8 @@ public interface WarehouseFoodDao {
     FoodEntity getFood(String name);
 
     List<FoodEntity> searchFoods(Specification<FoodEntity> specification);
+
+    Page<FoodEntity> searchFoods(Specification<FoodEntity> specification, Pageable pageable);
 
     default List<FoodEntity> createFoods(final List<FoodEntity> foods) {
         return foods.stream().map(this::createFood).collect(Collectors.toList());

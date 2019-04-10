@@ -4,6 +4,8 @@ import com.hojo.fenix.warehouse.dao.WarehouseShoppingListDao;
 import com.hojo.fenix.warehouse.dao.repositories.ShoppingListRepository;
 import com.hojo.fenix.warehouse.domain.entities.ShoppingListEntity;
 import com.hojo.fenix.warehouse.utils.exceptions.WarehouseException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -41,6 +43,11 @@ class WarehouseShoppingListDaoImpl implements WarehouseShoppingListDao {
     @Override
     public List<ShoppingListEntity> search(Specification<ShoppingListEntity> specification) {
         return shoppingListRepository.findAll(specification);
+    }
+
+    @Override
+    public Page<ShoppingListEntity> search(Specification<ShoppingListEntity> specification, Pageable pageable) {
+        return shoppingListRepository.findAll(specification, pageable);
     }
 
 

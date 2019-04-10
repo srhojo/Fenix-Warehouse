@@ -13,6 +13,6 @@ public interface WarehouseFoodService {
 
     FoodEntity updateFood(FoodRequest food);
 
-    ContainerList<FoodEntity> searchFoods(String filter);
+    ContainerList<FoodEntity> searchFoods(String filter, Integer limit, Long offset);
 
 }

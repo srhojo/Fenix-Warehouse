@@ -1,17 +1,17 @@
 package com.hojo.fenix.warehouse.domain.entities;
 
-import org.springframework.hateoas.ResourceSupport;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.Arrays;
 
 /**
  * @author hojo
  */
 @Entity
-@Table(name = "warehouse_food_sub_categories")
-public class FoodSubCategoryEntity extends ResourceSupport {
-
+@Table(name = "warehouse_product_sub_categories")
+public class ProductSubCategoryEntity {
 
     @Column(name = "category_name")
     private String categoryName;
@@ -60,7 +60,7 @@ public class FoodSubCategoryEntity extends ResourceSupport {
 
     @Override
     public String toString() {
-        return "FoodSubCategoryEntity{" +
+        return "ProductSubCategoryEntity{" +
                 "categoryName='" + categoryName + '\'' +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
