@@ -1,7 +1,6 @@
 package com.hojo.fenix.warehouse;
 
 import com.hojo.fenix.warehouse.domain.cdm.ContainerList;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +24,11 @@ public class WarehouseApplicationTests {
     private TestRestTemplate restTemplate;
 
     @Test
-    @Ignore
     public void getCategories() {
         // Given
 
         // When
-        final ResponseEntity<ContainerList> response = restTemplate.getForEntity("/warehouse/categories",
+        final ResponseEntity<ContainerList> response = restTemplate.getForEntity("/categories",
                 ContainerList.class);
 
         // Then
@@ -40,35 +38,33 @@ public class WarehouseApplicationTests {
     }
 
     @Test
-    @Ignore
     public void searchCategories_byId() {
         // Given
+        final String filter = "?filter=name:CAT1";
+        final String url = "/categories" + filter;
 
-        final String filter = "?search=id%3A1";
-        final String url = "/warehouse/categories" + filter;
         // When
         final ResponseEntity<ContainerList> response = restTemplate.getForEntity(url, ContainerList.class);
 
         // Then
         assertNotNull(response);
         assertNotNull(Objects.requireNonNull(response.getBody()).getValues());
-        assertTrue(response.getBody().getValues().size() > 1);
+        assertEquals(1, response.getBody().getValues().size());
     }
 
     @Test
-    @Ignore
     public void searchCategories_byNameLike() {
         // Given
+        final String filter = "?filter=description~Categoria";
+        final String url = "/categories" + filter;
 
-        final String filter = "?search=name~CAT";
-        final String url = "/warehouse/categories" + filter;
         // When
         final ResponseEntity<ContainerList> response = restTemplate.getForEntity(url, ContainerList.class);
 
         // Then
         assertNotNull(response);
         assertNotNull(Objects.requireNonNull(response.getBody()).getValues());
-        assertEquals(3, response.getBody().getValues().size());
+        assertEquals(2, response.getBody().getValues().size());
     }
 
 }

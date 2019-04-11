@@ -1,12 +1,10 @@
 package com.hojo.fenix.warehouse.utils.exceptions;
 
-import org.springframework.http.HttpStatus;
-
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.http.HttpStatus;
 
 /**
  * @author hojo
- *
  */
 public class WarehouseExceptionResponse {
 
@@ -17,7 +15,7 @@ public class WarehouseExceptionResponse {
     private final String code;
 
     @ApiModelProperty(value = "Generic java object who contains extra exception information.")
-    private final transient Object details;
+    private final Object details;
 
     private WarehouseExceptionResponse(final HttpStatus status, final String code, final Object details) {
         this.status = status;

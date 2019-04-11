@@ -7,6 +7,9 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 
@@ -21,7 +24,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
 
-@SuppressWarnings("unchecked")
 @RunWith(MockitoJUnitRunner.class)
 public class WarehouseShoppingListDaoImplTest {
 
@@ -71,6 +73,21 @@ public class WarehouseShoppingListDaoImplTest {
         //Then
         assertNotNull(results);
     }
+
+    @Test
+    public void search_pagination() {
+        //Given
+        Specification<ShoppingListEntity> specification = Mockito.mock(Specification.class);
+        Pageable pageable = Mockito.mock(Pageable.class);
+        given(shoppingListRepository.findAll(specification,pageable)).willReturn(Mockito.mock(Page.class));
+
+        //When
+        Page<ShoppingListEntity> results = warehouseShoppingListDao.search(specification, pageable);
+
+        //Then
+        assertNotNull(results);
+    }
+
 
     @Test
     public void create() {

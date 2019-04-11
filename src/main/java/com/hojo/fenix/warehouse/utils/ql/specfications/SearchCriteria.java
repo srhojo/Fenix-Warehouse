@@ -1,6 +1,10 @@
 package com.hojo.fenix.warehouse.utils.ql.specfications;
 
-public class SearchCriteria {
+import java.io.Serializable;
+
+public class SearchCriteria implements Serializable {
+
+    private static final long serialVersionUID = -8046505327772649554L;
     private String key;
     private SearchOperation operation;
     private Object value;

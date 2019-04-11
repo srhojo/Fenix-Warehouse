@@ -12,13 +12,6 @@ public enum SearchOperation {
         this.symbol = symbol;
     }
 
-    /**
-     * @return the symbol of operation
-     */
-    private String getSymbol() {
-        return symbol;
-    }
-
     public static String[] operationSet() {
         return Stream.of(SearchOperation.values()).map(SearchOperation::getSymbol).toArray(String[]::new);
     }
@@ -26,26 +19,33 @@ public enum SearchOperation {
     public static Optional<SearchOperation> getSimpleOperation(final String input) {
         SearchOperation operation;
         switch (input) {
-        case ":":
-            operation = EQUALITY;
-            break;
-        case "!":
-            operation = NEGATION;
-            break;
-        case ">":
-            operation = GREATER_THAN;
-            break;
-        case "<":
-            operation = LESS_THAN;
-            break;
-        case "~":
-            operation = LIKE;
-            break;
-        default:
-            operation = null;
-            break;
+            case ":":
+                operation = EQUALITY;
+                break;
+            case "!":
+                operation = NEGATION;
+                break;
+            case ">":
+                operation = GREATER_THAN;
+                break;
+            case "<":
+                operation = LESS_THAN;
+                break;
+            case "~":
+                operation = LIKE;
+                break;
+            default:
+                operation = null;
+                break;
         }
         return Optional.ofNullable(operation);
 
+    }
+
+    /**
+     * @return the symbol of operation
+     */
+    private String getSymbol() {
+        return symbol;
     }
 }
