@@ -49,7 +49,6 @@ public class WarehouseLoggerAop {
             logger.info(ELAPSED_TIME, joinPoint.getSignature(), System.currentTimeMillis() - startMillis);
         }
         return proceed;
-
     }
 
 }

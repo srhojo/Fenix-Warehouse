@@ -7,7 +7,7 @@ public class SearchCriteria implements Serializable {
     private static final long serialVersionUID = -8046505327772649554L;
     private String key;
     private SearchOperation operation;
-    private Object value;
+    private transient Object value;
     private boolean orPredicate;
 
     public SearchCriteria() {
