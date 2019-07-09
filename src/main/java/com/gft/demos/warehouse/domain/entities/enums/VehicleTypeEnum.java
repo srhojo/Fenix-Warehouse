@@ -1,11 +1,12 @@
 package com.gft.demos.warehouse.domain.entities.enums;
 
+
 public enum VehicleTypeEnum {
     CAR(Names.CAR), MOTORCYCLE(Names.MOTORCYCLE);
 
     public class Names{
-        public static final String CAR = "Car";
-        public static final String MOTORCYCLE = "Motorcycle";
+        public static final String CAR = "CAR";
+        public static final String MOTORCYCLE = "MOTORCYCLE";
     }
     private final String name;
 

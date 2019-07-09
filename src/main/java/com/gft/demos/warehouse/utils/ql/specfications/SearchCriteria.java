@@ -6,14 +6,15 @@ public class SearchCriteria implements Serializable {
 
     private static final long serialVersionUID = -8046505327772649554L;
     private String key;
-    private SearchOperation operation;
+    private SearchOperationEnum operation;
     private transient Object value;
     private boolean orPredicate;
 
     public SearchCriteria() {
+        //Do nothing
     }
 
-    public SearchCriteria(final String key, final SearchOperation operation, final Object value) {
+    public SearchCriteria(final String key, final SearchOperationEnum operation, final Object value) {
         super();
         this.key = key;
         this.operation = operation;
@@ -37,14 +38,14 @@ public class SearchCriteria implements Serializable {
     /**
      * @return the operation
      */
-    public SearchOperation getOperation() {
+    public SearchOperationEnum getOperation() {
         return operation;
     }
 
     /**
      * @param operation the operation to set
      */
-    public void setOperation(final SearchOperation operation) {
+    public void setOperation(final SearchOperationEnum operation) {
         this.operation = operation;
     }
 

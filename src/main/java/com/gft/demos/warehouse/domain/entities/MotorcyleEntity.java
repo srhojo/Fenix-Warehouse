@@ -4,6 +4,6 @@ import com.gft.demos.warehouse.domain.entities.enums.VehicleTypeEnum;
 
 import javax.persistence.Entity;
 
-@Entity(name= VehicleTypeEnum.Names.MOTORCYCLE)
+@Entity(name = VehicleTypeEnum.Names.MOTORCYCLE)
 public class MotorcyleEntity extends VehicleEntity {
 }

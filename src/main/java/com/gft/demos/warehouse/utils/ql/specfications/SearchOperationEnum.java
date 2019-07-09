@@ -3,35 +3,39 @@ package com.gft.demos.warehouse.utils.ql.specfications;
 import java.util.Optional;
 import java.util.stream.Stream;
 
-public enum SearchOperation {
-    EQUALITY(":"), NEGATION("!"), GREATER_THAN(">"), LESS_THAN("<"), LIKE("~");
+public enum SearchOperationEnum {
+    EQUALITY("=="),
+    NEGATION("!="),
+    GREATER_THAN("=gt="),
+    LESS_THAN("=lt="),
+    LIKE("=in=");
 
     private final String symbol;
 
-    SearchOperation(final String symbol) {
+    SearchOperationEnum(final String symbol) {
         this.symbol = symbol;
     }
 
     public static String[] operationSet() {
-        return Stream.of(SearchOperation.values()).map(SearchOperation::getSymbol).toArray(String[]::new);
+        return Stream.of(SearchOperationEnum.values()).map(SearchOperationEnum::getSymbol).toArray(String[]::new);
     }
 
-    public static Optional<SearchOperation> getSimpleOperation(final String input) {
-        SearchOperation operation;
+    public static Optional<SearchOperationEnum> getSimpleOperation(final String input) {
+        SearchOperationEnum operation;
         switch (input) {
-            case ":":
+            case "==":
                 operation = EQUALITY;
                 break;
-            case "!":
+            case "!=":
                 operation = NEGATION;
                 break;
-            case ">":
+            case "=gt=":
                 operation = GREATER_THAN;
                 break;
-            case "<":
+            case "=lt=":
                 operation = LESS_THAN;
                 break;
-            case "~":
+            case "=in=":
                 operation = LIKE;
                 break;
             default:

@@ -25,7 +25,7 @@ public class SpecificationsBuilder<T> {
      * @param value     key value
      */
     public final void with(final String key, final String operation, final Object value) {
-        SearchOperation.getSimpleOperation(operation).ifPresent(op -> params.add(new SearchCriteria(key, op, value)));
+        SearchOperationEnum.getSimpleOperation(operation).ifPresent(op -> params.add(new SearchCriteria(key, op, value)));
     }
 
     /**
