@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface WarehouseVehicleInspectionDao extends WarehouseCRUD<VehicleInspection,Long> {
 
+    VehicleInspection getDetail(Long vehicleId, Long  inspectionId);
+
     List<VehicleInspection> getAll(Long vechicleId);
 
 }

@@ -11,7 +11,9 @@ import io.swagger.annotations.ApiParam;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -38,12 +40,12 @@ public class WarehouseGarageController implements WarehouseGarage {
     }
 
     @Override
-    public VehicleEntity getVehicleById(@PathVariable("id") final Long id) {
+    public VehicleEntity getVehicleById(final Long id) {
         return warehouseVehicleService.get(id);
     }
 
     @Override
-    public VehicleEntity addVehicle(final @Valid VehicleEntity request) {
+    public VehicleEntity addVehicle(final VehicleEntity request) {
         return warehouseVehicleService.save(request);
     }
 
@@ -54,8 +56,13 @@ public class WarehouseGarageController implements WarehouseGarage {
     }
 
     @Override
+    public VehicleEntity updateVehicleImage(final Long id, @RequestPart(name = "image")  final MultipartFile[] files) {
+        return warehouseVehicleService.updateVehicleImage(id,files[0]);
+    }
+
+    @Override
     public VehicleInspection getVehicleInspections(final Long vehicleId, final Long inspectionId) {
-        return warehouseVehicleService.getInspectionDetail(inspectionId);
+        return warehouseVehicleService.getInspectionDetail(vehicleId,inspectionId);
 
     }
 

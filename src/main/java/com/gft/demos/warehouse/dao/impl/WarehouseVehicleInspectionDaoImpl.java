@@ -2,14 +2,12 @@ package com.gft.demos.warehouse.dao.impl;
 
 import com.gft.demos.warehouse.dao.WarehouseVehicleInspectionDao;
 import com.gft.demos.warehouse.dao.repositories.VehicleInspectionRepository;
-import com.gft.demos.warehouse.domain.entities.VehicleEntity;
 import com.gft.demos.warehouse.domain.entities.VehicleInspection;
 import com.gft.demos.warehouse.utils.exceptions.WarehouseException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
-
 import java.util.List;
 
 import static com.gft.demos.warehouse.utils.exceptions.ExceptionConstants.*;
@@ -63,6 +61,20 @@ public class WarehouseVehicleInspectionDaoImpl implements WarehouseVehicleInspec
         vehicleInspectionRepository.deleteById(id);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public VehicleInspection getDetail(Long vehicleId, Long inspectionId) {
+        return vehicleInspectionRepository
+                .findByIdAndVehicleId(inspectionId, vehicleId)
+                .orElseThrow(() -> new WarehouseException(HttpStatus.NOT_FOUND, ERRORS_DAO_ENTITY_NOT_FOUND_CODE,
+                        String.format(ERRORS_DAO_ENTITY_NOT_FOUND_MESSAGE, inspectionId)));
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<VehicleInspection> getAll(final Long vehicleId) {
         return vehicleInspectionRepository.findAllByVehicleId(vehicleId);

@@ -15,9 +15,10 @@ import com.gft.demos.warehouse.utils.ql.QueryLanguajeComponentImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 @Service
@@ -44,6 +45,17 @@ public class WarehouseVehicleServiceImpl implements WarehouseVehicleService {
     @Override
     public VehicleEntity get(final Long id) {
         return warehouseVehicleDao.get(id);
+    }
+
+    @Override
+    public VehicleEntity updateVehicleImage(final Long id, final MultipartFile file) {
+        VehicleEntity vehicle = warehouseVehicleDao.get(id);
+        try {
+            vehicle.setImage(file.getBytes());
+        } catch (IOException e) {
+            throw new WarehouseException(e.getMessage());
+        }
+        return warehouseVehicleDao.update(vehicle);
     }
 
     @Override
@@ -89,8 +101,9 @@ public class WarehouseVehicleServiceImpl implements WarehouseVehicleService {
     }
 
     @Override
-    public VehicleInspection getInspectionDetail(Long inspectionId) {
-        return warehouseVehicleInspectionDao.get(inspectionId);
+    public VehicleInspection getInspectionDetail(final Long vehicleId, final Long inspectionId) {
+        return warehouseVehicleInspectionDao.getDetail(vehicleId, inspectionId);
+        //return warehouseVehicleInspectionDao.get(inspectionId);
     }
 
     @Override
@@ -99,7 +112,7 @@ public class WarehouseVehicleServiceImpl implements WarehouseVehicleService {
         final VehicleInspection vehicleInspection = vehicle.getInspections().stream()
                 .filter(i -> i.getId().equals(inspectionId))
                 .findAny()
-                .orElseThrow(() -> new WarehouseException(String.format("Inspection %s not found in vehicle: %s",inspectionId,vehicleId)));
+                .orElseThrow(() -> new WarehouseException(String.format("Inspection %s not found in vehicle: %s", inspectionId, vehicleId)));
         warehouseVehicleInspectionDao.delete(vehicleInspection.getId());
     }
 }

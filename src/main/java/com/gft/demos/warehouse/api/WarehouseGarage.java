@@ -9,6 +9,7 @@ import io.swagger.annotations.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
@@ -42,7 +43,7 @@ public interface WarehouseGarage {
     })
     VehicleEntity getVehicleById(@PathVariable Long id);
 
-    @PostMapping("/vehicles/{type}")
+    @PostMapping("/vehicles")
     @ResponseStatus(HttpStatus.CREATED)
     @ApiOperation(value = "Method to create a vehicle", response = VehicleEntity.class, nickname = "addVehicle", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
@@ -51,7 +52,7 @@ public interface WarehouseGarage {
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
-    VehicleEntity addVehicle(@RequestBody @Valid VehicleEntity request);
+    VehicleEntity addVehicle(@RequestBody VehicleEntity request);
 
     @PutMapping("/vehicle/{id}")
     @ApiOperation(value = "Method to update a vehicle", response = VehicleEntity.class, nickname = "updateVehicle", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -62,6 +63,17 @@ public interface WarehouseGarage {
             @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "application/json")
     })
     VehicleEntity updateVehicle(@PathVariable Long id, @RequestBody @Valid VehicleEntity request);
+
+    @PatchMapping(value = "/vehicle/{id}/set-image", consumes = {"multipart/form-data"})
+    @ApiOperation(value = "Method set a vehicle image", response = VehicleEntity.class, nickname = "updateVehicleImage", httpMethod = "PATCH", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Set vehicle imagesuccessfully", response = VehicleEntity.class),
+            @ApiResponse(code = 500, message = "An error has occurred", response = WarehouseExceptionResponse.class)})
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "Content-Type", dataType = "string", paramType = "header", defaultValue = "multipart/form-data")
+    })
+    VehicleEntity updateVehicleImage(@PathVariable Long id, @RequestPart(name = "image") MultipartFile[] files);
+
 
     @GetMapping("/vehicles/{vehicleId}/inspections/{inspectionId}")
     VehicleInspection getVehicleInspections(@PathVariable Long vehicleId, @PathVariable Long inspectionId);
