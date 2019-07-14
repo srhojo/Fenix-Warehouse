@@ -33,7 +33,7 @@ public interface WarehouseGarage {
                                                 @RequestParam(value = "offset", required = false) @Min(value = 0L, message = "Offset size must not be less than zero!") final Long offset);
 
 
-    @GetMapping("/vehicle/{id}")
+    @GetMapping("/vehicles/{id}")
     @ApiOperation(value = "Method to retrieve vehicle by its id", response = VehicleEntity.class, nickname = "getVehicleById", httpMethod = "GET", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Retrieve vehicle successfully", response = VehicleEntity.class),
@@ -54,7 +54,7 @@ public interface WarehouseGarage {
     })
     VehicleEntity addVehicle(@RequestBody VehicleEntity request);
 
-    @PutMapping("/vehicle/{id}")
+    @PutMapping("/vehicles/{id}")
     @ApiOperation(value = "Method to update a vehicle", response = VehicleEntity.class, nickname = "updateVehicle", httpMethod = "POST", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Vehicle updated successfully", response = VehicleEntity.class),
@@ -64,7 +64,7 @@ public interface WarehouseGarage {
     })
     VehicleEntity updateVehicle(@PathVariable Long id, @RequestBody @Valid VehicleEntity request);
 
-    @PatchMapping(value = "/vehicle/{id}/set-image", consumes = {"multipart/form-data"})
+    @PatchMapping(value = "/vehicles/{id}/set-image", consumes = {"multipart/form-data"})
     @ApiOperation(value = "Method set a vehicle image", response = VehicleEntity.class, nickname = "updateVehicleImage", httpMethod = "PATCH", produces = MediaType.MULTIPART_FORM_DATA_VALUE)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Set vehicle imagesuccessfully", response = VehicleEntity.class),
