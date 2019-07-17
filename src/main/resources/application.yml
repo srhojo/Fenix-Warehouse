@@ -24,6 +24,12 @@ spring:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
 
+vectalia:
+  alicante:
+    api:
+      url: https://alicante.vectalia.es/ajax/microsite
+      path:
+        estimateStop: /isae-estimate-by-stop
 
 server:
   port: 8881
